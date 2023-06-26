@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>偏离系数计算器</title>
+  <style>
+    /* CSS 样式 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      padding: 10px 20px;
+      font-size: 36px;
+      cursor: pointer;
+    }
+
+    #result {
+      font-size: 36px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>偏离系数计算器</h1>
+  <input type="text" id="dataInput">
+  <div class="button-container">
+    <button class="button" onclick="addNumber(0)">0</button>
+    <button class="button" onclick="addNumber(1)">1</button>
+    <button class="button" onclick="addNumber(2)">2</button>
+    <button class="button" onclick="addNumber(3)">3</button>
+    <button class="button" onclick="addNumber(4)">4</button>
+    <button class="button" onclick="addNumber(5)">5</button>
+    <button class="button" onclick="addNumber(6)">6</button>
+    <button class="button" onclick="addNumber(7)">7</button>
+    <button class="button" onclick="addNumber(8)">8</button>
+    <button class="button" onclick="addNumber(9)">9</button>
+    <button class="button" onclick="addDecimal()">.</button>
+    <button class="button" onclick="addSpace()"> </button>
+  </div>
+  <div class="button-container">
+    <button class="button" onclick="clearData()">清除</button>
+    <button class="button" onclick="calculate()">计算</button>
+  </div>
+  <div id="result"></div>
+
+  <script>
+    // JavaScript 代码
+    var data = [];
+
+    function addNumber(number) {
+      data.push(number);
+      var dataInput = document.getElementById("dataInput");
+      dataInput.value = data.join("");
+    }
+
+    function addDecimal() {
+      data.push(".");
+      var dataInput = document.getElementById("dataInput");
+      dataInput.value = data.join("");
+    }
+
+    function addSpace() {
+      data.push(" ");
+      var dataInput = document.getElementById("dataInput");
+      dataInput.value = data.join("");
+    }
+
+    function clearData() {
+      data = [];
+      var dataInput = document.getElementById("dataInput");
+      dataInput.value = "";
+      document.getElementById("result").innerHTML = "";
+    }
+
+    function calculate() {
+      var dataInput = document.getElementById("dataInput").value;
+      var data = dataInput.split(" ").map(Number);
+
+      var mean = data.reduce((a, b) => a + b, 0) / data.length;
+
+      var stdDeviation = Math.sqrt(data.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b, 0) / data.length);
+
+      var cv = (stdDeviation / mean) * 100;
+
+      document.getElementById("result").innerHTML = "偏离系数：" + cv.toFixed(2) + "%";
+    }
+  </script>
+</body>
+</html>
